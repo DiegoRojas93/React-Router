@@ -8,6 +8,9 @@ import { Map as map } from 'immutable';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
+
+import { BrowserRouter } from 'react-router-dom'
+
 // function logger({ getState, dispatch}) {
 //   return (next) => {
 //     return (action) => {
@@ -45,8 +48,11 @@ const homeContainer = document.getElementById('home-container')
 
 
 render(
+  <BrowserRouter
+    basename="/videos"
+  >
   <Provider store={store}>
     <Home />
   </Provider>
+  </BrowserRouter>
 , homeContainer);
-
