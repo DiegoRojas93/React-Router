@@ -1,41 +1,15 @@
 # React router
 
-### BwoserRouter
+### Tipos de enrutadores
 
-El primer componente que debenmos ver a fondo y manipular será el BrowserRouter, este enrutador cuenta con diferentes propiedades para ser configurado:
+React Router es una libreria más que le añadimos a nuestro stack, lo más básico que debemos aprender de React Router son sus distintos enrutadores:
 
-- ***basename:*** configura la url base de todas las rutas.
+1. **BrowserRouter:** Es el enrutados que más tiempo utilices como frontend, usa el ***HTML5*** y el ***history API.*** lo que quiere decir que este tipo de enrutador nos da la posibilidad de cambiar las rutas en el navegador.
 
-```
-<BrowserRouter basename="/calendar">
-    <Link to="/today"/> // renders <a href="/calendar/today">
-    <Link to="/tomorrow"/> // renders <a href="/calendar/tomorrow">
-    ...
-</BrowserRouter>
-```
-- ***getUserConfirmation:*** recibe una función con la cual puedes validar si el ususario quiere dejar la pagina en la que se encuentra.
+2. **HashRouter:** Funciona similar al BrowserRouter, pero usa un hash ( **#** ) al inicio de cada url
 
-- ***forceRefresh:*** es un booleano, como su nombre lo indica en caso de ser verdadero se forzará a que el navegador recargue cuando se navegue, es decir, define si la página se deba recargar o no.
+3. **MemoryRouter:** Mantiene el historial de búsqueda en memoria y te ***sirve para realizar pruebas sin el navegador.*** Por ejemplo usar Jest para hacer pruebas unitarias o pruebas dentro del servidor de forma automatizada sin necesidad de un navegador.
 
-- ***keyLenght:*** un key es el id único que recibe cada movimiento en la navegación, keyLenght se encarga de configurar la longitud de cada key y por defecto tiene una ongitud de 6 caracteres.
+4. **StaticRouter:** Nunca cambia de dirección, es perfecto para realiar ***SSR*** (Server Side Render), por ejemplo renderizar solamente una ruta del tu sitio web.
 
-- ***children:*** es lo que estara dentro de nuestro BrowserRouter.
-
-Todo esto lo encontraras en su [documentación oficial de React Router.](https://reactrouter.com/web/api/BrowserRouter "documentacion oficial de React Router.")
-
-Dentro de nuestro proyecto debemos envolver nuestros componentes principales dentro del BrowserRouter.
-
-app.js
-```
-import { BrowserRouter } from 'react-router-dom'
-
-render(
-  <BrowserRouter
-    basename="/videos"
-  >
-  <Provider store={store}>
-    <Home />
-  </Provider>
-  </BrowserRouter>
-, homeContainer);
-```
+5. **NativeRouter:** Es el router que no servirá si queremos usar React Native, **No** lo veremos en el curso. Es recomendable usar en su lugar [React Navigation.](https://reactnavigation.org/ "React Navigation.")
