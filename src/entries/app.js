@@ -58,8 +58,8 @@ render(
   <Provider store={store}>
     <Fragment>
       <Header />
-      <Route exact path="/" component= {Home}/>
-      <Route exact path="/videos" component={Videos}/>
+      <Route exact path="/" component= {Videos}/>
+      <Route exact path="/videos" component={Home}/>
       <Route exact path="/contacto" component={Contact}/>
       <Route exact path="/perfil" component={perfil}/>
     </Fragment>
