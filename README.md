@@ -1,15 +1,31 @@
 # React router
 
-### Tipos de enrutadores
+### Link y NavLink
 
-React Router es una libreria más que le añadimos a nuestro stack, lo más básico que debemos aprender de React Router son sus distintos enrutadores:
+BrowserRouter no hára mucho si no esta acompañado de enlaces yrutas, empecemos hablando de los enlaces que se llaman Link y NavLink. Estos funcionan de manera similar a las anclas `<a></a>` de HTML.
 
-1. **BrowserRouter:** Es el enrutados que más tiempo utilices como frontend, usa el ***HTML5*** y el ***history API.*** lo que quiere decir que este tipo de enrutador nos da la posibilidad de cambiar las rutas en el navegador.
+**Link** cuenta con las siguientes propiedades:
 
-2. **HashRouter:** Funciona similar al BrowserRouter, pero usa un hash ( **#** ) al inicio de cada url
+- **to:** similar al ***href*** de `<a>`, puede recibir un string indicando la ruta a donde va a mandar o bien recibir un objeto con: pathname, un string que representa la ruta a donde se dirige; search, un string que representa el query de una url; hash, un hash para poner en la url; y por último state, un objeto que representa un estado en la navegación.
 
-3. **MemoryRouter:** Mantiene el historial de búsqueda en memoria y te ***sirve para realizar pruebas sin el navegador.*** Por ejemplo usar Jest para hacer pruebas unitarias o pruebas dentro del servidor de forma automatizada sin necesidad de un navegador.
+- **replace**: es muy similar a to, pero se diferencia en que utiliza el ***history API,*** su trabajo es remplazar la ruta que que linkeara por la ruta que estuvo anteriormente, es decir que al oprimir un link ente volvera a la ruta que estuvo anteriormente.
 
-4. **StaticRouter:** Nunca cambia de dirección, es perfecto para realiar ***SSR*** (Server Side Render), por ejemplo renderizar solamente una ruta del tu sitio web.
+- **InneRef**: Es una forma de obtener el elemento HTML del componente, funciona igual que el ref de React.
 
-5. **NativeRouter:** Es el router que no servirá si queremos usar React Native, **No** lo veremos en el curso. Es recomendable usar en su lugar [React Navigation.](https://reactnavigation.org/ "React Navigation.")
+**NavLink** es una nueva version especial de Link, cuenta con varias caracteristicas más poderosas como, por ejemplo:
+
+- **activeClassName:** cuando se navegue a la ruta que dirija el NavLink, esta propiedad añadira al className del componente sl string que le pasemos.
+
+- **activeStyle:** similar a activeClass, pero con estilos en línea
+
+- **isActive:** es una función que se mandara cuando naveguemos a la ruta del NavLink
+
+- **exact:** recibe un booleano, sirve para marcar si dirige a una ruta exacta. Se vera a mayor profundidad cuando manejemos rutas
+
+- **stric:** recibe un booleano, sirve para marcar si dirige a una ruta estricta. Se vera a mayor profundidad cuiando manejemos rutas
+
+- **location:** sirve para poder hacer la comparación de isActive con alguna otra ruta
+
+Vamos a implementar estos componentes dentro del componente Header, dicho componente lo encontraras en el sistema de archivos. Importamos y añadimos Header junto al componente de Home que se encuentra dentro del archivo app.js.
+
+Recuerda importar ***Fragment,*** este es un componente que devuelve múltiples elementos. Fragment te permite agrupar multiples children sin agregar nodos adicionales al DOM.
