@@ -4,6 +4,7 @@ import Home from '../pages/containers/home';
 import Videos from '../pages/containers/Videos';
 import perfil from '../pages/containers/perfil';
 import Contact from '../pages/containers/contact';
+import NotFound from '../pages/components/not-found';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reducer from '../reducers/index';
@@ -62,6 +63,7 @@ render(
       <Route exact path="/videos" component={Home}/>
       <Route exact path="/contacto" component={Contact}/>
       <Route exact path="/perfil" component={perfil}/>
+      <Route component={NotFound}/>
     </Fragment>
   </Provider>
   </BrowserRouter>
