@@ -1,31 +1,187 @@
 # React router
 
-### Link y NavLink
+### Route
 
-BrowserRouter no hára mucho si no esta acompañado de enlaces yrutas, empecemos hablando de los enlaces que se llaman Link y NavLink. Estos funcionan de manera similar a las anclas `<a></a>` de HTML.
+Aun no estas cambiando nada dentro de la interfaz, solamente se esta cambiando la url. Para poder cambiar la interfaz acorde a la url usaremos Rote, algunas Propiedades son:
 
-**Link** cuenta con las siguientes propiedades:
+- **Component:** que compoente quieres renderizar
 
-- **to:** similar al ***href*** de `<a>`, puede recibir un string indicando la ruta a donde va a mandar o bien recibir un objeto con: pathname, un string que representa la ruta a donde se dirige; search, un string que representa el query de una url; hash, un hash para poner en la url; y por último state, un objeto que representa un estado en la navegación.
+```
+import { BrowserRouter, Route } from 'react-router-dom'
 
-- **replace**: es muy similar a to, pero se diferencia en que utiliza el ***history API,*** su trabajo es remplazar la ruta que que linkeara por la ruta que estuvo anteriormente, es decir que al oprimir un link ente volvera a la ruta que estuvo anteriormente.
+function app () {
 
-- **InneRef**: Es una forma de obtener el elemento HTML del componente, funciona igual que el ref de React.
+  return (
+    < BrowserRouter >
+      <Route component={Home} />
+      <Route component={Video} />
+    < /BrowserRouter >
+  )
+}
 
-**NavLink** es una nueva version especial de Link, cuenta con varias caracteristicas más poderosas como, por ejemplo:
+export default App
 
-- **activeClassName:** cuando se navegue a la ruta que dirija el NavLink, esta propiedad añadira al className del componente sl string que le pasemos.
+```
 
-- **activeStyle:** similar a activeClass, pero con estilos en línea
+- **path:** indica la ruta en la cual va a renderizar el componenteque le pases
 
-- **isActive:** es una función que se mandara cuando naveguemos a la ruta del NavLink
+```
+import { BrowserRouter, Route } from 'react-router-dom'
 
-- **exact:** recibe un booleano, sirve para marcar si dirige a una ruta exacta. Se vera a mayor profundidad cuando manejemos rutas
+import Home from './src/container/Home'
+import Video from './src/container/Video'
 
-- **stric:** recibe un booleano, sirve para marcar si dirige a una ruta estricta. Se vera a mayor profundidad cuiando manejemos rutas
+function app () {
 
-- **location:** sirve para poder hacer la comparación de isActive con alguna otra ruta
+  return (
+    < BrowserRouter >
+      <Route path="/pagina" component={Home} />
+      <Route path="/pagina/video" component={Video} />
+    < /BrowserRouter >
+  )
+}
 
-Vamos a implementar estos componentes dentro del componente Header, dicho componente lo encontraras en el sistema de archivos. Importamos y añadimos Header junto al componente de Home que se encuentra dentro del archivo app.js.
+export default App
 
-Recuerda importar ***Fragment,*** este es un componente que devuelve múltiples elementos. Fragment te permite agrupar multiples children sin agregar nodos adicionales al DOM.
+```
+
+- **render:** es una alternativa a componente, puedes hacer un renderizado en forma de función como en los componentes de React.
+
+```
+import { BrowserRouter, Route } from 'react-router-dom'
+
+import Home from './src/container/Home'
+import Video from './src/container/Video'
+
+function app () {
+
+  return (
+    < BrowserRouter >
+      <Route path="/pagina" render = () => ({<div> ... </div>}) />
+      <Route exact path="/videos" render={()=>(<h1>videos</h1>)}/>
+    < /BrowserRouter >
+  )
+}
+
+export default App
+
+```
+
+- **children:** son los hijos o componentes que tenga anidado.
+
+```
+import { BrowserRouter, Route } from 'react-router-dom'
+
+import Home from './src/container/Home'
+import Video from './src/container/Video'
+
+function app () {
+
+  return (
+    < BrowserRouter >
+      <Route path="/pagina" component={Home} />
+      <Route exact path="/videos" ><h1>videos</h1></Route>
+    < /BrowserRouter >
+  )
+}
+
+export default App
+
+```
+
+- **exact:** recibe un booleano, si le indicas que es verdadero solo hára match si la ruta coincide exactamente con la ubicación, no harácasa a ninguna sub-ruta.
+
+```
+import { BrowserRouter, Route } from 'react-router-dom'
+
+import Home from './src/container/Home'
+import Video from './src/container/Video'
+
+function app () {
+
+  return (
+    < BrowserRouter >
+      <Route exact path="/pagina" component={Home} />
+      <Route exact path="/pagina/video" component={Video} />
+    < /BrowserRouter >
+  )
+}
+
+export default App
+
+```
+
+| path | location.pathname | exact | matches? |
+| ------------ | ------------ | ------------ | ------------ |
+| /one | /one/two | true | no |
+| /one | /one/two | false | yes |
+
+- **strict:** recibe un booleano, si le indicas que es verdadero solo hará match si la ruta a la que te diriges es identica a la ruta del Route
+
+```
+import { BrowserRouter, Route } from 'react-router-dom'
+
+import Home1 from './src/container/Home'
+import Home2 from './src/container/Home2'
+
+function app () {
+
+  return (
+    < BrowserRouter >
+      <Route strict path="/pagina" component={Home1} />
+      <Route exact strict path="/pagina/" component={Home2} />
+    < /BrowserRouter >
+  )
+}
+
+export default App
+
+```
+
+***strict***
+
+| path | location.pathname | matches? |
+| ------------ | ------------ | ------------ |
+| /one/ | /one | no |
+| /one/ | /one/ | yes |
+| /one/ | /one/two | yes |
+
+***exact strict***
+
+| path | location.pathname | matches? |
+| ------------ | ------------ | ------------ |
+| /one/ | /one | yes |
+| /one/ | /one/ | no |
+| /one/ | /one/two | no |
+
+- **sensitive:** recibe un booleano, si le indicas que es verdadero el ***case sensitive*** podra identificar si la ruta tiene tiene la letra minuscula o mayuscula tal como si la indicase en su path.
+
+si no agregas sensitive, podras identificar la ruta sin importar si esta en minusculas o mayusculas.
+
+
+```
+import { BrowserRouter, Route } from 'react-router-dom'
+
+import Home1 from './src/container/Home'
+
+function app () {
+
+  return (
+    < BrowserRouter >
+      <Route sensitive path="/Pagina" component={Home1} />
+    < /BrowserRouter >
+  )
+}
+
+export default App
+
+```
+
+| path | location.pathname | sensitive | matches? |
+| ------------ | ------------ | ------------ | ------------ |
+| /one | /one | true | yes |
+| /One | /one | true | no |
+| /One | /one | false | yes |
+
+
+Vamos a cambiar el nombre del componente Home por Videos y añadiremos un nuevo componente Home que encontraras en el sistema de archivos, por utimo configuraremos sus componentes Route.
