@@ -1,13 +1,15 @@
 # React router
 
-En este caso no estaremos enfocados en crear UI,ni diseño, para nestro proyecto, en su lugar vamos a ir agregando funcionalidades de navegación al proyecto, las cuales son:
+Para empezar, debemos descargar el proyecto de PlatziVideo en su formato .ZIP de su repositorio en [GitHub](https://github.com/LeonidasEsteban/platzi-video-redux "GitHub") y luego pasar sus archivos a la carpeta de nuestro proyecto, y corremo el sigiente comando.
 
-- Cambiar la url según el video que se este mirando
+`npm install && npm audit fix`
 
-- Hacer un ***redirect*** en PlatziVideo de /v a /videos
+Dentro de nuestro proyecto encontraremos el archivo package.json, el cual nos servirá para, entre otras cosas, poder ver las dependencias de nuestro proyecto. Para este curso estaremos trabajando con la versión 16.4.2 de react y react-dom.
 
-- Responder al error 404
+Las dependencias de React Router que vamos a usar se encuentran en el repositorio de React [React Router.](https://github.com/ReactTraining/react-router "React Router.") Básicamente necesitaremos react-router que es el núcleo de ***React Router*** y ***react-router-dom*** que son cosas que solo sirven en el navegador. Para instalar las dependencias corremos el comando:
 
-- Moverse a través de historial de navegación
+`npm install react-router@4.3.1 react-router-dom@4.3.1 -S -E`
 
-- Implementaremos un **SSR** ó Server Side Render (tenemos un renderizado en el servidor y un renderizado en el cliente)
+Por ultimo corre el siguiente comando para inicializar el proyecto desde la terminal.
+
+`npm run build:dev`
