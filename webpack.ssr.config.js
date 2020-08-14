@@ -1,17 +1,3 @@
-# React router
-
-### Configurando Webpack para server side render
-
-Llego el momento de realizar nuestro Server Side Render, en este módulo iremos configurando nuestro proyecto para que sea una Single Page Application universal ya que el código va a correr tanto en el cliente como en el servidor.
-
-Lo primero que debemos hacer es configurar Webpack ya que requerimos que algunos archivos se exporten de forma 100% orientada a que los lea Node.
-
-Por defecto, Webpack te va a exportar los archivos para navegador, para cambiar esto debemos escribir la propiedad [Target](https://webpack.js.org/concepts/targets/) con el valor que queramos en este caso Node.
-
-Por último, le indicamos a Webpack que nuestro archivo lo guarde en una carpeta distinta y añadimos al package.json un nuevo script para que ejecute Webpack.
-
-webpack.ssr.config.js
-```
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -88,4 +74,3 @@ module.exports = (env) => {
     plugins
   }
 }
-```

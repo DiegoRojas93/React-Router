@@ -53,9 +53,9 @@ class Header extends Component {
               </NavLink>
             </li>
             <li>
-              <a onClick={this.handleClick}>
+              <NavLink to="ldfmdñl" onClick={this.handleClick}>
                 👈
-              </a>
+              </NavLink>
             </li>
           </ul>
         </nav>

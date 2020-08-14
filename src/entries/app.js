@@ -54,8 +54,7 @@ const homeContainer = document.getElementById('home-container')
 
 
 render(
-  <BrowserRouter
-  >
+  <BrowserRouter>
   <Provider store={store}>
     <Fragment>
       <Header />
