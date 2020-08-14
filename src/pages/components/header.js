@@ -36,6 +36,11 @@ class Header extends Component {
                 Not found
               </NavLink>
             </li>
+            <li>
+              <NavLink to='/v'>
+                Redirect
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </header>

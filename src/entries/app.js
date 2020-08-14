@@ -13,7 +13,7 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 
 import Header from '../pages/components/header.js'
 
@@ -59,11 +59,14 @@ render(
   <Provider store={store}>
     <Fragment>
       <Header />
-      <Route exact path="/" component= {Videos}/>
-      <Route exact path="/videos" component={Home}/>
-      <Route exact path="/contacto" component={Contact}/>
-      <Route exact path="/perfil" component={perfil}/>
-      <Route component={NotFound}/>
+      <Switch>
+        <Route exact path="/" component= {Videos}/>
+        <Route exact path="/videos" component={Home}/>
+        <Route exact path="/contacto" component={Contact}/>
+        <Route exact path="/perfil" component={perfil}/>
+        <Redirect from="/v" to="/videos"/>
+        <Route component={NotFound}/>
+      </Switch>
     </Fragment>
   </Provider>
   </BrowserRouter>
