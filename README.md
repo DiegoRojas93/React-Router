@@ -1,90 +1,74 @@
 # React router
 
-### Moviendonos y manipulando el historial de navegación
+### Obteniendo el historial desde cualquier componente
 
-Dentro de los componentes que renderizamos a través de Route encontramos en sus props un objeto llamado **history** , este objeto cuenta con multiples propiedades y métodos como:
+El history es una propiedad que le llega a componentes que son renderizados por el componente padre Route, pero ¿qué pasa con los componentes que no son paginas o qué simplemente no forman parte de ninguna ruta?.
 
-- **go:** es un método que te permite ir a cierto momento en el historial de navegación, recibe como parámetro un número, dependiendo de la cantidad es cuanto avanzara en el historial y si es positivo o negativo será la dirección que tome.
-- **goBack:** es un método que te permite navegar una pagina hacia atrás, funciona de forma similar a que si llamáramos a go(-1).
-- **goForward:** es un método que te permite navegar una pagina hacia adelante, funciona de forma similar que si llamáramos a go(1).
-- **push:** te permite añadir una nueva ruta al stack de navegación.
+Dentro de nuestro curso tenemos un caso de ese estilo, el Header no forma parte de ninguna ruta ó pagina por lo tanto no recibe las propiedades de history, location y match.
 
-not-found.js
+Existe un High Order Component llamado withRouter que te permite añadir estas propiedades y asi solucionar el enrutamiento a componentes que no hacen parte de las rutas.
+
 ```
-import React, { PureComponent } from 'react';
-import './generic-page.css'
+import React, { Component } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router'
 
-class NotFound extends PureComponent {
-	handleForwardClick = () => {
-		// this.props.history.goForward();
-		this.props.history.go(1);
-	}
-	handleBackClick = () => {
-		// this.props.history.goBack();
-		this.props.history.go(-1);
-	}
+import './header.css';
 
-	handleRandomClick = () => {
-		const random = Math.round(Math.random() * (10 - 1) + 1)
-		this.props.history.push(`/videos?id=${random}`)
-	}
+import logo from '../../../images/logo.png';
 
-	render(){
-		return (
-			<div className="Page NotFound">
-				<h1>404 Not fount</h1>
-				<h3 className="SadFace">:(</h3>
-				<h2>No hemos encontrado la pagina que buscabas</h2>
-				<button
-					className="Button"
-					onClick={this.handleForwardClick}
-				>
-					Ir a la sigiente página 👉
-				</button>
-				<button
-					className="Button"
-					onClick={this.handleBackClick}
-				>
-					Ir a la enterior página 👈
-				</button>
-				<button
-					className="Button"
-					onClick={this.handleRandomClick}
-				>
-					Ir al video random 🍀
-				</button>
-			</div>
-		)
-	}
-}
-
-export default NotFound
-```
-
-Tambien podemos conocer y namipular la **locacion** (hash ó ruta de su website) por medio de del metodo:
-
-`window.location.search`
-`window.location.search.split('=')`
-
-videos.js
-```
-class Home extends Component {
-
-  handleOpenModal = (id) => {
-    this.props.actions.openModal(id)
-
+class Header extends Component {
+  handleClick = () => {
+    this.props.history.goBack()
   }
 
-  componentDidMount() {
-    const search = this.props.location.search;
-
-    if (search) {
-      const id = search.split('=')[1]
-      this.handleOpenModal(id)
-    }
-  }
   render() {
-    ...
+    return (
+      <header className="Header">
+        <img src={logo} width={250}/>
+        <nav>
+          <ul>
+            <li>
+              <NavLink exact to="/" activeClassName="is-selected">
+                Inicio
+              </NavLink>
+            </li>
+            <li>
+              <NavLink exact to="/videos" activeClassName="is-selected">
+                Videos
+              </NavLink>
+            </li>
+            <li>
+              <NavLink exact to="/contacto" activeClassName="is-selected">
+                Contacto
+              </NavLink>
+            </li>
+            <li>
+              <NavLink exact to="/perfil" activeClassName="is-selected">
+                Perfil
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to='NotFound' activeClassName="is-selected">
+                Not found 2
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to='/v'>
+                Redirect
+              </NavLink>
+            </li>
+            <li>
+              <a onClick={this.handleClick}>
+                👈
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    )
   }
 }
+
+export default withRouter(Header)
 ```
