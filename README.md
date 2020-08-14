@@ -1,93 +1,89 @@
 # React router
 
-### Redirect - Switch
+### Prompt, validación antes de dejar la página
 
-Habrás notado que nuestro componente NotFound se está renderizando a la vez que el componente Home. Esto sucede porque la Route de NotFound está haciendo match con la de Home, para resolverlo debemos implementar Switch como componente padre de nuestros componentes Route.
+Vamos a implementar una validación antes de dejar la página en la que se encuentra el usuario. Esto sucede comúnmente en páginas que incluyan un formulario para evitar que el usuario se vaya sin enviar el formulario o dejarlo a medias.
 
-**Switch** se encarga de solo renderizar el primer componente que haga match con la ruta que estés designando.
+Dentro de nuestro proyecto esto tiene sentido cuando estamos realizando alguna búsqueda. Para implementarlo usaremos el componente Prompt cuyos parámetros que recibe son when que recibe un booleano para indicar si muestra el mensaje del navegador y message que recibe un string que será el mensaje que reciba el usuario.
 
+search.js
 ```
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import React from 'react';
+import './search.css';
+import  { Prompt } from 'react-router';
 
-const homeContainer = document.getElementById('home-container')
-
-render(
-  <BrowserRouter
+const Search = (props) => (
+  <form
+    className="Search"
+    onSubmit={props.handleSubmit}
   >
-  <Provider store={store}>
-    <Fragment>
-      <Header />
-      <Switch>
-        <Route exact path="/" component= {Videos}/>
-        <Route exact path="/videos" component={Home}/>
-        <Route exact path="/contacto" component={Contact}/>
-        <Route exact path="/perfil" component={perfil}/>
-        <Route component={NotFound}/>
-      </Switch>
-    </Fragment>
-  </Provider>
-  </BrowserRouter>
-, homeContainer);
+    <Prompt
+      when={props.prompt}
+      message= "¿Estas seguro de dejar lo que escribiste?"
+    />
+    <input
+      ref={props.setRef}
+      type="text"
+      placeholder="Busca tu video favorito"
+      className="Search-input"
+      name="search"
+      onChange={props.handleChange}
+      value={props.value}
+    />
+  </form>
+)
+
+export default Search
 ```
 
-El componente **Redirect** nos ayudara para realizar un redireccionamiento en el navegador, sus principales parámetros son ***from*** y ***to*** que sirven para indicar de que ruta van a redirigir hacía que ruta van a realizar el redireccionamiento.
-
-**Nota:** no olvidemos que la ruta de NotFound sea la ultima ruta dentro del Switch, debido a que si se pine por encima de los Redirects, estos mismos no van a hacer el redireccionamiento.
-```
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-
-const homeContainer = document.getElementById('home-container')
-
-render(
-  <BrowserRouter
-  >
-  <Provider store={store}>
-    <Fragment>
-      <Header />
-      <Switch>
-        <Route exact path="/" component= {Videos}/>
-        <Route exact path="/videos" component={Home}/>
-        <Route exact path="/contacto" component={Contact}/>
-        <Route exact path="/perfil" component={perfil}/>
-        <Redirect from="/v" to="/videos"/>
-        <Route component={NotFound}/>
-      </Switch>
-    </Fragment>
-  </Provider>
-  </BrowserRouter>
-, homeContainer);
-```
-
-Para no entrar en problemas del Server Side Render añadiremos un nuevo NavLink dentro de nuestro Header para poder realizar el redireccionamiento.
-
+search.container.js
 ```
 import React, { Component } from 'react';
-import './header.css';
+import Search from '../components/search';
+import { connect } from 'react-redux';
+import  * as actions from '../../actions/index';
+import { bindActionCreators } from 'redux';
 
-import { Link, NavLink } from 'react-router-dom';
-import logo from '../../../images/logo.png';
-
-class Header extends Component {
+class SearchContainer extends Component {
+  state = {
+    value: '',
+    prompt: false
+  }
+  handleSubmit = event => {
+    event.preventDefault();
+    // console.log(this.input.value, 'submit')
+    // fetch(`http://miapi.com/buscar/${this.input.value}`).then((data)=>{
+    // })
+    this.props.actions.searchAsyncEntities(this.input.value)
+  }
+  setInputRef = element => {
+    this.input = element;
+  }
+  handleInputChange = event => {
+    this.setState({
+      value: event.target.value.replace(' ', '-'),
+      prompt: !!(event.target.value.length)
+    })
+  }
   render() {
     return (
-      <header className="Header">
-        <img src={logo} width={250}/>
-        <nav>
-          <ul>
-
-            ...
-
-            <li>
-              <NavLink to='/v'>
-                Redirect
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Search
+        setRef={this.setInputRef}
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleInputChange}
+        value={this.state.value}
+        prompt={this.state.prompt}
+      />
     )
   }
 }
 
-export default Header
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SearchContainer);
+
 ```
