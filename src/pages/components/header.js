@@ -32,8 +32,13 @@ class Header extends Component {
               </NavLink>
             </li>
             <li>
-              <NavLink to='no hay nada'>
-                Not found
+              <NavLink to='NotFound' activeClassName="is-selected">
+                Not found 1
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to='NotFound' activeClassName="is-selected">
+                Not found 2
               </NavLink>
             </li>
             <li>
