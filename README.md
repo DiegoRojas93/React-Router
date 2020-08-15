@@ -1,40 +1,11 @@
 # React router
 
-### Creando una aplicación de Express
+### StaticRouter
 
-Vamos a crear un servidor básico con Express, para ello primero debemos instalarlo con el siguiente comando:
+Los métodos utilizados de HTML5 para el BrowserRouter no existen en Node, por eso se debe utilizar StaticRouter.
 
-`npm install express -S -E`
+Dentro de nuestro proyecto en el archivo app.js encontraremos varios componentes que solo funcionan del lado del navegador, necesitamos separar las cosas en un archivo de compilación para el cliente y uno para el servidor.
 
-Vamos a realizar algo llamado Backend for Frontend, de momento solo va a responder ante cualquier dirección con un texto que será una plantilla base de nuestro proyecto.
+Vamos a realizar el refactor del archivo app.js para tener dos archivos y configurar Webpack para separar la compilación de archivos.
 
-./src/srver.js
-```
-const express = require('express');
-
-const app = express();
-
-app.get('*', (req, res) => {
-	console.log(req.url)
-
-	res.write(`
-		<!DOCTYPE html>
-		<html lang="es">
-			<head>
-				<meta charset="UTF-8">
-				<title>PLatzi Video</title>
-			</head>
-			<body>
-				<div id="home-container"> Hola mundo! desde ${req.url}</div>
-				<div id="modal-container"></div>
-				<script src="http://localhost:9000/js/app.js"></script>
-			</body>
-		</html>
-	`)
-	res.end()
-})
-
-app.listen(3000)
-
-console.log(`El servidor se prendió en el puerto 3000`);
-```
+Una vez separados y compilados los archivos, dentro de nuestro servidor vamos a importar StaticRouter y el archivo compilado que no tiene nada relacionado al navegador para envolverlo dentro de StaticRouter.

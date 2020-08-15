@@ -1,6 +1,12 @@
 const express = require('express');
+const App = require('../dist/ssr/app')
+const ReactRouter = require('react-router')
 
 const app = express();
+
+<ReactRouter.StaticRotuter>
+	<App/>
+</ReactRouter.StaticRotuter>
 
 app.get('*', (req, res) => {
 	console.log(req.url)
