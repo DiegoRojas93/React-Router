@@ -14,6 +14,7 @@ import NotFound from '../components/not-found';
 import Header from '../components/header.js'
 import perfil from './perfil';
 import Contact from './contact';
+import video from './video'
 
 const logger_ = ({getState, dispatch }) => next => action => {
   console.log('este es mi viejo estado', getState().toJS())
@@ -44,9 +45,11 @@ class App extends Component {
 					<Switch>
 						<Route exact path="/" component= {Videos}/>
 						<Route exact path="/videos" component={Home}/>
+						<Route exact path="/videos/:id" component={vome}/>
 						<Route exact path="/contacto" component={Contact}/>
 						<Route exact path="/perfil" component={perfil}/>
 						<Redirect from="/v" to="/videos"/>
+						<Redirect from="/v:id" to="/videos/:id"/>
 						<Route component={NotFound}/>
 					</Switch>
 				</Fragment>
